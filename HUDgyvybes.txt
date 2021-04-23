@@ -1,0 +1,281 @@
+{$CLEO .cs}
+wait 10000
+0000:
+:ini
+wait 0
+if
+0256:   player $PLAYER_CHAR defined
+jf @ini
+//-------------------------------------------------------------------------------------
+0006: 9@ = 0
+10@= -0 
+0006: 4@ = 1
+//-------------------------------------------------------------------------------------
+:patikradelhp
+0226: 1@  = actor $PLAYER_ACTOR health
+wait 0
+if
+8019:   1@ > 100
+jf @patikradelhp
+0B34: samp register_client_command "gyvybes" to_label @red
+//-------------------------------------------------------------------------------------
+:pilnasuzkrovimas
+0AF0: 31@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "puse"
+0AF0: 11@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "rodmensR"
+0AF0: 12@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "rodmensG"
+0AF0: 13@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "rodmensB"
+0AF0: 14@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "fonoR"
+0AF0: 16@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "fonoG"
+0AF0: 17@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "fonoB"
+0AF0: 18@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadoR"
+0AF0: 19@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadoG"
+0AF0: 20@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadoB"
+0AF0: 2@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadoA"
+0AF2: 23@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "x"
+0AF2: 24@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "y"
+0087: 30@ = 23@ // (float)
+0AF2: 27@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadodydisx"
+0AF2: 28@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadodydisy"
+038E:  30@   24@ size 27@   28@ RGBA 18@ 19@ 20@ 2@
+//-------------------------------------------------------------------------------------
+:editmodecheck
+wait 0
+if
+ 9@ == 1
+jf @uzkrovimas
+jump @redagavimas
+//-------------------------------------------------------------------------------------
+:uzkrovimas
+0AF2: 21@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "dydisx"
+0AF2: 22@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "dydisy"
+0AF2: 23@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "x"
+0AF2: 24@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "y"
+wait 0
+if
+31@ >= 2
+then
+0087: 29@ = 22@ // (float)
+0087: 30@ = 24@ // (float)
+else
+0087: 29@ = 21@ // (float)
+0087: 30@ = 23@ // (float)
+end
+
+//-------------------------------------------------------------------------------------
+
+:tabpatikra
+wait  0
+0AC9: free_allocated_memory 1@
+0AC8: 1@ = allocate_memory_size 560
+0A8D: 1@ = read_memory 0xBAA3FB size 1 virtual_protect 0
+wait 0
+if
+1@ == 0
+jf @isjungti
+jump @patikra
+0A93: end_custom_thread
+jump @patikra
+jump @patikra
+//-------------------------------------------------------------------------------------
+:patikra
+wait 0
+0AC8: 6@ = allocate_memory_size 560
+0226: 6@ = actor $PLAYER_ACTOR health
+:patikra2
+wait 0
+if or
+003B:   6@ == 10@  // (int)
+6@ >= 101
+jf @skaiciavimas
+jump @tabpatikra
+//-------------------------------------------------------------------------------------
+:skaiciavimas
+wait 0
+0AC9: free_allocated_memory 6@
+0AC8: 6@ = allocate_memory_size 560
+0226: 6@ = actor $PLAYER_ACTOR health
+0AC9: free_allocated_memory 10@
+0AC8: 10@ = allocate_memory_size 260
+0085: 10@ = 6@ // (int)
+0093: 15@ = integer 6@ to_float
+ 0017: 15@ /=  100.0
+wait 0
+if
+31@ == 0
+then
+ 006B: 15@ *= 21@  // (float)
+ 0AC8: 5@ = allocate_memory_size 560
+  0AC8: 8@ = allocate_memory_size 560
+0087: 5@ = 15@ // (float)
+0087: 8@ = 15@ // (float)
+0017: 21@ /= 2.0
+0017: 5@ /= 2.0
+0063: 23@ -=  21@
+005B: 23@ += 5@  // (float)
+038E:  30@   24@ size 29@   22@ RGBA 14@ 16@ 17@ 255
+038E:  23@    24@ size 15@   22@ RGBA 11@ 12@ 13@ 255
+end
+wait 0
+if
+31@ ==  1
+then
+ 006B: 15@ *= 21@  // (float)
+ 0AC8: 5@ = allocate_memory_size 560
+  0AC8: 8@ = allocate_memory_size 560
+0087: 5@ = 15@ // (float)
+0087: 8@ = 15@ // (float)
+0017: 21@ /= 2.0
+0017: 5@ /= 2.0
+005B: 23@ -=  21@
+0063: 23@ += 5@  // (float)
+038E:  30@   24@ size 29@   22@ RGBA 14@ 16@ 17@ 255
+038E:  23@    24@ size 15@   22@ RGBA 11@ 12@ 13@ 255
+end
+wait 0
+ if
+31@ == 2
+then
+ 006B: 15@ *= 22@  // (float)
+ 0AC8: 5@ = allocate_memory_size 560
+  0AC8: 8@ = allocate_memory_size 560
+0087: 5@ = 15@ // (float)
+0087: 8@ = 15@ // (float)
+0017: 22@ /= 2.0
+0017: 5@ /= 2.0
+0063: 24@ -=  22@
+005B: 24@ += 5@  // (float)
+038E:  23@   30@ size 21@   29@ RGBA 14@ 16@ 17@ 255
+038E:  23@    24@ size 21@   15@ RGBA 11@ 12@ 13@ 255
+end
+wait 0
+ if
+31@ == 3
+then
+ 006B: 15@ *= 22@  // (float)
+ 0AC8: 5@ = allocate_memory_size 560
+  0AC8: 8@ = allocate_memory_size 560
+0087: 5@ = 15@ // (float)
+0087: 8@ = 15@ // (float)
+0017: 22@ /= 2.0
+0017: 5@ /= 2.0
+005B: 24@ -=  22@
+0063: 24@ += 5@  // (float)
+038E:  23@   30@ size 21@   29@ RGBA 14@ 16@ 17@ 255
+038E:  23@    24@ size 21@   15@ RGBA 11@ 12@ 13@ 255
+end
+0AC9: free_allocated_memory 6@
+0AC9: free_allocated_memory 15@
+0AC9: free_allocated_memory 8@
+0AC8: 6@ = allocate_memory_size 560
+0226: 6@ = actor $PLAYER_ACTOR health
+wait 0
+if
+002B:   25 >= 6@
+jf @fix
+jump @blogai
+:blogai
+wait 0
+03F0: enable_text_draw 0
+0007: 10@ = 0.0
+0006: 4@ = 0
+ wait 300 
+ jump @pilnasuzkrovimas
+:fix
+wait 0
+if
+0039:  4@ == 0  
+jf @uzkrovimas
+0006: 4@ = 1
+03F0: enable_text_draw 0  
+038E:  30@   24@ size 27@   28@ RGBA 18@ 19@ 20@ 2@
+038E:  30@   24@ size 27@   28@ RGBA 18@ 19@ 20@ 2@
+0007: 10@ = 0.0
+wait 0
+jump @pilnasuzkrovimas
+wait 0
+jump @uzkrovimas
+0A93: end_custom_thread
+//-------------------------------------------------------------------------------------
+jump @pilnasuzkrovimas
+jump @pilnasuzkrovimas
+//-------------------------------------------------------------------------------------
+:isjungti
+wait 0 
+03F0: enable_text_draw 0
+//-------------------------------------------------------------------------------------
+:tabpatikraijungimui
+0AC9: free_allocated_memory 1@
+0AC8: 1@ = allocate_memory_size 560
+0A8D: 1@ = read_memory 0xBAA3FB size 1 virtual_protect 0
+wait 0
+if
+0039:   1@ == 0
+jf @tabpatikraijungimui
+//-------------------------------------------------------------------------------------
+:ijungimas
+0006: 7@ = 0
+0006:    10@ = 1
+wait  0
+jump @pilnasuzkrovimas
+:red
+wait 0
+0006:    9@ = 1
+0B43: samp cmd_ret
+//--------------------------------------------------------------------------------------
+:redagavimas
+wait 0
+0AF8: samp add_message_to_chat "{47AB3F}• {ffffff} Ájungtas redagavimo rëþimas" 0xffffff
+0B5D: samp toggle_cursor 1
+//-------------------------------------------------------------------------------------
+:redagavimas1
+03F0: enable_text_draw 0
+0B5E: get_cursor_pos 1@ 2@
+0093: 23@ = integer 1@ to_float
+0093: 24@ = integer 2@ to_float
+0017: 23@ /= 3.0
+0017: 24@ /= 2.25
+0AF2: 21@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "dydisx"
+0AF2: 22@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "dydisy"
+0AF2: 27@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadodydisx"
+0AF2: 28@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "apvadodydisy"
+038E:  23@   24@ size 27@   28@ RGBA 18@ 19@ 20@ 2@
+038E:  23@   24@ size 21@   22@ RGBA 14@ 16@ 17@ 255
+0AC9: free_allocated_memory 15@
+0AC9: free_allocated_memory 5@
+0AC9: free_allocated_memory 8@
+//-------------------------------------------------------------------------------------
+:redagavimas2
+wait 0
+if
+key_down 13
+jf @redagavimas3
+jump @redissaugoti
+//-------------------------------------------------------------------------------------
+:redagavimas3
+wait 0
+if
+key_down 27
+jf @redagavimas1
+jump @rediseiti
+//-------------------------------------------------------------------------------------
+:redissaugoti
+wait 0
+0AF3: 23@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "x"
+0AF3: 24@ = get_float_from_ini_file "cleo\HUD.ini" section "gyvybes" key "y"
+0af8: "{47AB3F}• {ffffff}  Iðsaugota!" 0xffffff
+0B5D: samp toggle_cursor 0
+0006:    9@ = 0 
+0006:    10@ = 0 
+ wait 0
+jump @pilnasuzkrovimas
+jump @pilnasuzkrovimas
+//-------------------------------------------------------------------------------------
+:rediseiti
+wait 0
+0af8: "{47AB3F}• {ffffff}  Iðeita be iðsaugojimo" 0xffffff
+0B5D: samp toggle_cursor 0
+0006:    9@ = 0
+0006:    10@ = 0
+wait  0
+jump @pilnasuzkrovimas
+jump @pilnasuzkrovimas

@@ -1,0 +1,165 @@
+{$CLEO .cs}
+wait 10000
+0000:
+0006:    9@ = 0
+0B34: samp register_client_command "pinigai" to_label @red
+:cum1
+wait 0
+if
+0256:   player $PLAYER_CHAR defined
+jf @cum1
+0006:    20@ = 0
+
+0AC8: 1@ = allocate_memory_size 560
+0AC8: 2@ = allocate_memory_size 260
+0AC8: 4@ = allocate_memory_size 560
+0AC8: 3@ = allocate_memory_size 560
+0AC8: 5@ = allocate_memory_size 560
+:rela
+wait 0
+0AF2: 21@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "x"
+0AF2: 22@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "y"
+0AF2: 15@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "dydisx"
+0AF2: 16@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "dydisy"
+0AF0:  17@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "sriftas"
+0AF0:  18@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "sulyginimas"
+alloc 0@ 560
+0AF4: 0@ = read_string_from_ini_file "cleo\HUD.ini" section "pinigai" key "formatas"
+0AF0: 25@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "spalva"
+0AF0: 26@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "seseliospalva"
+0AF0: 27@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "apvadospalva"
+0AF0: 28@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "seseliodydis"
+0AF0: 29@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "apvadodydis"
+0AF0: 30@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "vaivorykste"
+free 8@
+alloc 8@    560
+wait 0
+0AD3: 8@v = format "%s" 0@
+free 0@
+wait 0
+:ss
+wait 0
+0C48: samp textdraw 7@ create "0" pos -500.0 -500.0
+0C4C: samp textdraw 7@ set_style 17@
+0C52: samp textdraw 7@ set_letter_size 15@ 16@ 25@
+0C4A: samp textdraw 7@ set_align 18@
+0C51: samp textdraw 7@ set_pos 21@ 22@
+0C4D: samp textdraw 7@ set_shadow 28@ color 26@
+0C4E: samp textdraw 7@ set_outline 29@ color 27@
+:check
+wait 0
+if
+30@ == 1
+jf @chks
+0C52: samp textdraw 7@ set_letter_size 15@ 16@ $6942
+:chks
+010B: 1@ = player $PLAYER_CHAR money
+:checka
+wait 0
+if
+003B:   20@ == 1@  // (int)
+jf @ba
+jump @ka
+0A93: end_custom_thread
+
+:ba
+wait 0
+0085: 20@ = 1@ // (int)
+alloc 0@ 560
+0AF4: 0@ = read_string_from_ini_file "cleo\HUD.ini" section "pinigai" key "formatas"
+free 8@
+alloc 8@    560
+wait 0
+0AD3: 8@v = format "%s" 0@
+free 0@   
+0AD3: 5@ = format 8@v 1@
+0C50: samp textdraw 7@ set_string 5@
+:ka
+0AC8: 4@ = allocate_memory_size 560
+0A8D: 4@ = read_memory 0xBAA3FB size 1 virtual_protect 0
+wait 0
+if
+0039:   4@ == 1
+jf @reda
+jump @ka22
+0A93: end_custom_thread
+
+:reda
+wait  0
+if
+0039:   9@ == 1
+jf @check
+jump @edit1
+0A93: end_custom_thread
+
+
+:ka22
+0C51: samp textdraw 7@ set_pos -400.0 -500.0
+:ka2
+0AC8: 4@ = allocate_memory_size 560
+0A8D: 4@ = read_memory 0xBAA3FB size 1 virtual_protect 0
+wait 0
+if
+0039:   4@ == 1
+jf @cum1
+jump @ka2
+0A93: end_custom_thread
+
+:red
+wait 0
+0006:    9@ = 1
+0B43: samp cmd_ret
+0A93: end_custom_thread
+
+:edit1
+wait 0
+0AF8: samp add_message_to_chat "{47AB3F}• {ffffff}  Ájungtas redagavimo rëþimas" 0xffffff
+0B5D: samp toggle_cursor 1
+:edit2
+0B5E: get_cursor_pos 1@ 2@
+0093: 4@ = integer 1@ to_float
+0093: 5@ = integer 2@ to_float
+0017: 4@ /= 3.0
+0017: 5@ /= 2.25
+0C51: samp textdraw 7@ set_pos 4@ 5@
+:klausimas
+wait 0
+if
+key_down 13
+jf @edit3
+jump @editsave
+0A93: end_custom_thread
+
+:edit3
+wait 0
+if
+key_down 27
+jf @edit2
+jump @editexit
+0A93: end_custom_thread
+
+:editsave
+0AF3: 4@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "x"
+0AF3: 5@ = get_float_from_ini_file "cleo\HUD.ini" section "pinigai" key "y"
+0af8: "{47AB3F}• {ffffff}  Iðsaugota!" 0xffffff
+0B5D: samp toggle_cursor 0
+0006:    9@ = 0
+0006:    20@ = 0
+wait 0
+jump @cum1
+0A93: end_custom_thread
+
+:editexit
+wait 0
+0B5D: samp toggle_cursor 0
+0af8: "{47AB3F}• {ffffff}  iðeita be Iðsaugojimo" 0xffffff
+wait 0
+0006:    20@ = 0
+0006:    9@ = 0
+wait 0
+:editexi1
+wait 200
+jump @cum1
+jump @cum1
+0A93: end_custom_thread
+

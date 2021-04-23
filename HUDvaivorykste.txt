@@ -1,0 +1,155 @@
+{$CLEO .cs}
+wait 10000
+0000:
+:ini
+wait 0
+if
+0256:   player $PLAYER_CHAR defined
+jf @ini
+:loadup
+0AF0: 30@ = get_float_from_ini_file "cleo\HUD.ini" section "vaivorykste" key   "faziukiekis"
+var
+$masyvas: array 100 of int
+end
+ free 22@
+ alloc  22@  250
+ free 23@
+ alloc  23@  250
+wait 0
+for 4@ = 0 to 30@ 1
+0085: 2@ = 4@
+2@ *= 3
+0085: 5@ = 2@
+6@ = 1
+ format 22@s "%d"  6@
+  format 23@s "%d" 4@ 
+0AF0: $masyvas[5@] = get_float_from_ini_file "cleo\HUD.ini" section 23@s key  22@s
+5@ += 1
+6@ += 1
+ format 22@s "%d" 6@
+  format 23@s "%d" 4@ 
+0AF0: $masyvas[5@] = get_float_from_ini_file "cleo\HUD.ini" section 23@s key  22@s
+5@ += 1
+6@ += 1
+ format 22@s "%d"  6@
+  format 23@s "%d" 4@ 
+0AF0: $masyvas[5@] = get_float_from_ini_file "cleo\HUD.ini" section 23@s key  22@s
+end
+
+:pradzia
+0AF0: $6942 =          get_float_from_ini_file "cleo\HUD.ini" section "vaivorykste" key "skaidrumas"
+0AF0: 9@ =          get_float_from_ini_file "cleo\HUD.ini" section "vaivorykste" key "greitis"
+
+0AF0: 30@ = get_float_from_ini_file "cleo\HUD.ini" section "vaivorykste" key   "faziukiekis"
+ 008B: 2@ = $masyvas[0]
+  008B: 5@ = $masyvas[1]
+ 008B: 6@ = $masyvas[2]
+$6942 *= 16777216
+ 2@ *= 65536
+ 5@ *= 256
+ 005e: $6942 +=  2@
+  005e: $6942 +=  5@
+   005e: $6942 +=  6@
+   //-------------------------------------------------------------------
+
+   //-------------------------------------------------------------------------------------------------------------------------------------
+     25@ = 0
+    wait 100          
+       
+    :Asdssss
+    wait 100
+    :Asdadasdd
+    wait 0
+    if
+    001d:   30@ >= 25@  // (int)
+    jf @loadup
+    wait 0
+0085: 2@ = 25@
+2@ *= 3
+0085: 5@ = 2@
+0085: 6@ = 2@
+5@ += 3
+:red0
+wait 0
+if
+803A: not  $masyvas[6@] == $masyvas[5@]
+jf @green0
+wait 0
+if
+001C:   $masyvas[6@] > $masyvas[5@]
+jf @falses
+    for 4@ = $masyvas[6@]  downto   $masyvas[5@] step 3
+wait 9@
+000c: $6942 -= 196608
+
+    end
+jump @green0
+:falses
+    for 4@ = $masyvas[6@]  to   $masyvas[5@] step 3
+wait 9@
+0008: $6942 += 196608
+
+    end
+    //---------------------------------------
+ 
+    :green0
+       5@ += 1
+    6@ += 1
+wait 0
+if
+803A: not  $masyvas[6@] == $masyvas[5@]
+jf @blue0
+wait 0
+if
+001C:   $masyvas[6@] > $masyvas[5@]
+jf @falses1
+    for 4@ = $masyvas[6@]  downto   $masyvas[5@] step 3
+wait 9@
+000c: $6942 -= 768
+
+    end
+jump @blue0
+:falses1
+    for 4@ = $masyvas[6@]  to   $masyvas[5@] step 3
+wait 9@
+0008: $6942 += 768
+
+    end    
+    //---------------------------------------
+    
+    :blue0
+        5@ += 1
+    6@ += 1
+    wait 0
+if
+803A: not  $masyvas[6@] == $masyvas[5@]
+jf @endas
+wait 0
+if
+001C:   $masyvas[6@] > $masyvas[5@]
+jf @falses2
+    for 4@ = $masyvas[6@]  downto   $masyvas[5@] step 3
+wait 9@
+000c: $6942 -= 3
+0C5C: samp textdraw 58 get_letter_size 21@ 20@ color 19@
+0C52: samp textdraw 58 set_letter_size 21@ 20@ color $6942
+    end
+jump @endas
+:falses2
+    for 4@ = $masyvas[6@]  to   $masyvas[5@] step 3
+wait 9@
+0008: $6942 += 3
+    end      
+    wait 0
+    :endas  
+  25@ += 1
+  
+  jump @Asdssss
+   
+    
+    
+    
+jump @ini
+
+
+

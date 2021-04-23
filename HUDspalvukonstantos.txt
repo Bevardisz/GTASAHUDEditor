@@ -1,0 +1,177 @@
+{$CLEO .cs}
+wait 15000
+0000:
+:ini
+wait 0
+if
+0256:   player $PLAYER_CHAR defined
+jf @ini
+:wasds
+
+ wait 10
+0AF0: 0@ = get_float_from_ini_file "cleo\HUD.ini" section  "balta" key  "nustatymas"
+:balta
+wait 0
+if
+0@ == 1
+jf @balta2
+0AF0:    28@ = get_float_from_ini_file "cleo\HUD.ini" section "balta" key  "A" 
+0AF0: 29@ = get_float_from_ini_file "cleo\HUD.ini" section "balta" key  "R"
+0AF0:  30@ = get_float_from_ini_file "cleo\HUD.ini" section "balta" key  "G"
+0AF0:   31@ = get_float_from_ini_file "cleo\HUD.ini" section "balta" key  "B"
+28@ *= 16777216
+30@ *= 65536
+31@ *= 256
+005A: 28@ += 30@  
+005A: 28@ += 31@ 
+005A: 28@ += 29@ 
+wait 0
+0006: 1@ = 0xBAB22C   
+1@ += 16
+0A8C: write_memory 1@ size 4 value 28@ virtual_protect 0
+:balta2
+wait 0
+if
+0@ == 2
+jf @baltan
+0006: 1@ = 0xBAB22C   
+1@ += 16
+0A8C: write_memory 1@ size 4 value $6942 virtual_protect 0
+:baltan
+
+//-------------------------------------------------------------------------------------------------------------
+  wait 10
+0AF0: 0@ = get_float_from_ini_file "cleo\HUD.ini" section  "zalia" key  "nustatymas"
+:zalia
+wait 0
+if
+0@ == 1
+jf @zalia2
+0AF0:    28@ = get_float_from_ini_file "cleo\HUD.ini" section "zalia" key  "A" 
+0AF0: 29@ = get_float_from_ini_file "cleo\HUD.ini" section "zalia" key  "R"
+0AF0:  30@ = get_float_from_ini_file "cleo\HUD.ini" section "zalia" key  "G"
+0AF0:   31@ = get_float_from_ini_file "cleo\HUD.ini" section "zalia" key  "B"
+28@ *= 16777216
+30@ *= 65536
+31@ *= 256
+005A: 28@ += 30@  
+005A: 28@ += 31@ 
+005A: 28@ += 29@ 
+0006: 1@ = 0xBAB22C   
+1@ += 4
+0A8C: write_memory 1@ size 4 value 28@ virtual_protect 0
+:zalia2
+wait 0
+if
+0@ == 2
+jf @zalian
+0006: 1@ = 0xBAB22C   
+1@ += 4
+0A8C: write_memory 1@ size 4 value $6942 virtual_protect 0
+:zalian
+ 
+ 
+ 
+   wait 10
+0AF0: 0@ = get_float_from_ini_file "cleo\HUD.ini" section  "raudona" key  "nustatymas"
+:raudona
+wait 0
+if
+0@ == 1
+jf @raudona2
+0AF0:    28@ = get_float_from_ini_file "cleo\HUD.ini" section "raudona" key  "A" 
+0AF0: 29@ = get_float_from_ini_file "cleo\HUD.ini" section "raudona" key  "R"
+0AF0:  30@ = get_float_from_ini_file "cleo\HUD.ini" section "raudona" key  "G"
+0AF0:   31@ = get_float_from_ini_file "cleo\HUD.ini" section "raudona" key  "B"
+28@ *= 16777216
+30@ *= 65536
+31@ *= 256
+005A: 28@ += 30@  
+005A: 28@ += 31@ 
+005A: 28@ += 29@ 
+0006: 1@ = 0xBAB22C   
+0A8C: write_memory 1@ size 4 value 28@ virtual_protect 0
+:raudona2
+wait 0
+if
+0@ == 2
+jf @raudonan
+0006: 1@ = 0xBAB22C   
+0A8C: write_memory 1@ size 4 value $6942 virtual_protect 0
+:raudonan
+ wait 0
+  
+ 
+ 
+/*
+
+
+
+   wait 10
+0AF0: 0@ = get_float_from_ini_file "cleo\HUD.ini" section   key  "nustatymas"
+:
+wait 0
+if
+0@ == 1
+jf @2
+0AF0:    28@ = get_float_from_ini_file "cleo\HUD.ini" section  key  "A" 
+0AF0: 29@ = get_float_from_ini_file "cleo\HUD.ini" section  key  "R"
+0AF0:  30@ = get_float_from_ini_file "cleo\HUD.ini" section  key  "G"
+0AF0:   31@ = get_float_from_ini_file "cleo\HUD.ini" section  key  "B"
+28@ *= 16777216
+30@ *= 65536
+31@ *= 256
+005A: 28@ += 30@  
+005A: 28@ += 31@ 
+005A: 28@ += 29@ 
+0006: 1@ = 0xBAB22C 
+1@ +=  
+0A8C: write_memory 1@ size 4 value 28@ virtual_protect 0
+:2
+wait 0
+if
+0@ == 2
+jf @n
+0006: 1@ = 0xBAB22C
+1@ +=    
+0A8C: write_memory 1@ size 4 value $6942 virtual_protect 0
+:n
+ wait 0  
+ */
+    wait 10
+0AF0: 0@ = get_float_from_ini_file "cleo\HUD.ini" section  "juoda" key  "nustatymas"
+:juoda
+wait 0
+if
+0@ == 1
+jf @juoda2
+0AF0:    28@ = get_float_from_ini_file "cleo\HUD.ini" section "juoda" key  "A" 
+0AF0: 29@ = get_float_from_ini_file "cleo\HUD.ini" section "juoda" key  "R"
+0AF0:  30@ = get_float_from_ini_file "cleo\HUD.ini" section "juoda" key  "G"
+0AF0:   31@ = get_float_from_ini_file "cleo\HUD.ini" section "juoda" key  "B"
+28@ *= 16777216
+30@ *= 65536
+31@ *= 256
+005A: 28@ += 30@  
+005A: 28@ += 31@ 
+005A: 28@ += 29@ 
+0006: 1@ = 0xBAB22C 
+1@ += 20  
+0A8C: write_memory 1@ size 4 value 28@ virtual_protect 0
+:juoda2
+wait 0
+if
+0@ == 2
+jf @juodan
+0006: 1@ = 0xBAB22C
+1@ += 20   
+0A8C: write_memory 1@ size 4 value $6942 virtual_protect 0
+:juodan
+ wait 0  
+ 
+
+jump @wasds
+
+
+
+
